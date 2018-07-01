@@ -1,0 +1,88 @@
+#课前作业题答案
+#题目：有一对兔子，从出生后第3个月起每个月都生一对兔子，小兔子长到第三个月后每个月又生一对兔子，假如兔子都不死，问每个月的兔子总数为多少？
+程序分析：兔子的规律为数列1,1,2,3,5,8,13,21....
+
+def Sum(n):
+    if(n==1 or n==2):
+        return 1
+    elif n>2:
+        return Sum(n-1)+Sum(n-2)
+for i in range(12):
+    print(Sum(i))
+    
+
+
+#题目：输入3个数a,b,c，按大小顺序输出。
+print("请输入3个数a,b,c")
+n1 = int(input('n1 = : \n'))
+n2 = int(input('n2 = : \n'))
+n3 = int(input('n3 = : \n'))
+
+def swap(p1,p2):
+    return p2,p1
+if n1 > n2 : n1,n2 = swap(n1,n2)
+if n1 > n3 : n1,n3 = swap(n1,n3)
+if n2 > n3 : n2,n3 = swap(n2,n3)
+    
+print(n1,n2,n3)
+
+
+#题目：判断101-200之间有多少个素数，并输出所有素数。
+#程序分析：判断素数的方法：用一个数分别去除2到sqrt(这个数)，如果能被整除，则表明此数不是素数，反之是素数。 
+
+from math import sqrt
+countNum = 0
+for i in range(101,201):
+    k = 0
+    j = int(sqrt(i+1))
+    for a in range(2,j+1):
+        if i % a == 0:
+            k += 1
+    if k == 0:
+        print(i)
+        countNum +=1
+print("101-200素数的个数为：",countNum)
+        
+
+
+
+#题目：打印出所有的“水仙花数”，所谓的水仙花数是指一个三位数，其各位数字立方和等于该数本身.如153。
+def  isDaffoils(n):
+    if n < 100 or n > 999:
+        return False
+    else:
+        bai = int(n/100)
+        shi = int(n/10%10)
+        ge = int(n%10)
+        if ((bai*bai*bai + shi*shi*shi + ge*ge*ge) == n):
+            return True
+        else:
+            return False
+for i in range(100,1000):
+    if isDaffoils(i):
+        print(i,end=" ")
+    
+
+
+
+
+#题目：编写一个函数，输入n为偶数时，调用函数求1/2+1/4+...+1/n,当输入n为奇数时，调用函数1/1+1/3+...+1/n
+def evenNumber(n):
+    i = 0
+    sum = 0.0
+    for i in range(2,n+1,2):
+        sum += 1.0/i
+    return sum
+def oddNumber(n):
+    s = 0.0
+    for i in range(1,n+1,2):
+        sum += 1.0/i
+    return sum
+if __name__ == '__main__':
+    num = int(input('input a number:\n'))
+    if num % 2 == 0:
+        sum = evenNumber(num)
+    else:
+        sum = oddNumber(num)
+    print(sum)
+     
