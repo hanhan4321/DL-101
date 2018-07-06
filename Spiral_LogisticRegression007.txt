@@ -1,0 +1,86 @@
+import matplotlib.pyplot as plt
+from matplotlib.colors import ListedColormap  
+from numpy import *
+import numpy as np
+
+from sklearn import datasets
+from sklearn.cross_validation import train_test_split
+
+
+
+
+
+def plot_decision_regions(X,y,classifier,test_idx=None,resolution=0.02):
+    #setup marker generator and color map
+    markers = ('s','x','o','^','v')
+    colors =('red','blue','lightgreen','gray','cyan')
+    cmap = ListedColormap(colors[:len(np.unique(y))])
+    #plot the decision surface
+    x1_min,x1_max = X[:,0].min() - 1,X[:,0].max() + 1
+    x2_min,x2_max = X[:,1].min() - 1,X[:,1].max() + 1
+    xx1,xx2 = np.meshgrid(np.arange(x1_min,x1_max,resolution),np.arange(x2_min,x2_max,resolution))
+    Z = classifier.predict(np.array([xx1.ravel(),xx2.ravel()]).T)
+    Z = Z.reshape(xx1.shape)
+    plt.contourf(xx1,xx2,Z,alpha=0.4,cmap=cmap)
+    plt.xlim(xx1.min(),xx1.max())
+    plt.ylim(xx2.min(),xx2.max())
+    #plot class samples
+    for idx,cl in enumerate(np.unique(y)):
+        plt.scatter(x=X[y == cl,0],y=X[y == cl,1],alpha=0.8,c=cmap(idx),marker=markers[idx],label=cl,edgecolor='black') 
+    #highlight test samples
+    if test_idx:
+            X_test,y_test =X[test_idx,:],y[test_idx]
+            plt.scatter(X_test[:,0],X_test[:,1],c='',edgecolor='black',alpha=1.0,linewidth=1,marker='o',s=55,label='test set')
+            
+
+
+
+
+fig = plt.figure() 
+axes = fig.add_subplot(111)
+#然后填充显示阿基米德螺线所需要的数据：
+N = 5
+Step =10
+thetax = np.arange(0,N * np.pi,np.pi/Step)
+r1 =10*(1+thetax)
+x1 = r1 * np.cos(thetax)
+y1 = r1 * np.sin(thetax)
+x1 = x1.reshape(-1,1)
+y1 = y1.reshape(-1,1)
+data1 = np.hstack([x1,y1])
+#plt.scatter(data1[:, 0], data1[:, 1])
+
+x2 = r1 * np.cos(10+thetax)
+y2 = r1 * np.sin(10+thetax)
+x2 = x2.reshape(-1,1)
+y2 = y2.reshape(-1,1)
+data2 = np.hstack([x2,y2])
+#plt.scatter(data2[:,0], data2[:,1])
+
+
+data = np.vstack([data1,data2])
+#plt.scatter(data[:,0],data[:,1])
+
+label = list(ones(N*Step))+list(0*ones(N*Step)) 
+label = array(label)
+
+
+
+idx_1 = (label == 1)
+#plt.scatter(data[idx_1,0],data[idx_1,1], marker =  'x', color = 'm', label='1',s = 30)
+idx_2 = (label == 0)
+#plt.scatter(data[idx_2,0],data[idx_2,1],marker = 'o', color = 'r',label='2',s = 30)
+
+x_train,x_test,y_train,y_test = train_test_split(data,label,test_size=0.3,random_state=0)
+
+x_combined = np.vstack((x_train,x_test))
+y_combined = np.hstack((y_train,y_test))
+
+from sklearn.linear_model import LogisticRegression
+lr = LogisticRegression(C=1000.0,random_state=0)
+lr.fit(x_train,y_train)
+print("Coefficients:%s,intercept %s"%(lr.coef_,lr.intercept_)) #Coefficient of the features in the decision function.
+print("Residual sum of squares:%.2f"%np.mean((lr.predict(x_test) - y_test)**2))
+print('Score:%.2f' %(lr.score(x_test,y_test)))
+plot_decision_regions(x_combined,y_combined,classifier=lr,test_idx=range(60,2*N*Step))
+plt.show()
