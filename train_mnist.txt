@@ -1,4 +1,9 @@
-#MNIST ��������֪�������������ͼƬ�����ı�ʶ��
+#Instruction
+#MNIST 构建多层感知器神经网络对数字图片进行文本识别
+#数据源：keras里已经包含了此数据集
+#运行方式：直接运行
+#运行结果：Test score,Test accuracy
+
 
 from __future__ import print_function
 import numpy as np
