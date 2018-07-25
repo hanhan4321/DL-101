@@ -1,3 +1,8 @@
+#Instruction
+#数据集来源：由于Iris是很有名的数据集，sklearn已经收纳了
+#运行方式：直接运行
+#运行结果：可视化的分类结果
+
 from sklearn import datasets
 import numpy as np
 from sklearn.cross_validation import train_test_split
@@ -7,6 +12,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.colors import ListedColormap
 
+#plot_decision_regions为可视化函数，使得结果具有可视化效果，可直接使用
 def plot_decision_regions(X,y,classifier,test_idx=None,resolution=0.02):
     #setup marker generator and color map
     markers = ('s','x','o','^','v')
@@ -32,13 +38,14 @@ def plot_decision_regions(X,y,classifier,test_idx=None,resolution=0.02):
 
 iris = datasets.load_iris()
 X = iris.data[:,[2,3]]
-y = iris.target
+y = iris.target           #标签已被转换成了0,1,2
 X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.3,random_state=0)
 
+#缩放特征，为了追求机器学习和最优化算法的最佳性能
 from sklearn.preprocessing import StandardScaler
 sc = StandardScaler()
-sc.fit(X_train)
-X_train_std = sc.transform(X_train)
+sc.fit(X_train) #估算每个特征的平均值和标准差
+X_train_std = sc.transform(X_train)#注意：这里用同样的参数来标准化测试集，使得测试集和训练集之间有可比性
 X_test_std = sc.transform(X_test)
 
 X_combined_std = np.vstack((X_train_std,X_test_std))
