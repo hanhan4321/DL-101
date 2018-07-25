@@ -1,3 +1,5 @@
+#å¯¹MNISTæ‰‹å†™æ•°å­—æ•°æ®æ–‡ä»¶è½¬æ¢ä¸ºbmpå›¾ç‰‡æ–‡ä»¶æ ¼å¼ã€‚
+
 # encoding: utf-8
 """
 @author: monitor1379 
@@ -9,12 +11,12 @@
 @file: mnist_decoder.py
 @time: 2016/8/16 20:03
 
-¶ÔMNISTÊÖĞ´Êı×ÖÊı¾İÎÄ¼ş×ª»»ÎªbmpÍ¼Æ¬ÎÄ¼ş¸ñÊ½¡£
-Êı¾İ¼¯ÏÂÔØµØÖ·Îªhttp://yann.lecun.com/exdb/mnist¡£
-Ïà¹Ø¸ñÊ½×ª»»¼û¹ÙÍøÒÔ¼°´úÂë×¢ÊÍ¡£
+å¯¹MNISTæ‰‹å†™æ•°å­—æ•°æ®æ–‡ä»¶è½¬æ¢ä¸ºbmpå›¾ç‰‡æ–‡ä»¶æ ¼å¼ã€‚
+æ•°æ®é›†ä¸‹è½½åœ°å€ä¸ºhttp://yann.lecun.com/exdb/mnistã€‚
+ç›¸å…³æ ¼å¼è½¬æ¢è§å®˜ç½‘ä»¥åŠä»£ç æ³¨é‡Šã€‚
 
 ========================
-¹ØÓÚIDXÎÄ¼ş¸ñÊ½µÄ½âÎö¹æÔò£º
+å…³äºIDXæ–‡ä»¶æ ¼å¼çš„è§£æè§„åˆ™ï¼š
 ========================
 THE IDX FILE FORMAT
 
@@ -50,40 +52,40 @@ import numpy as np
 import struct
 import matplotlib.pyplot as plt
 
-# ÑµÁ·¼¯ÎÄ¼ş
+# è®­ç»ƒé›†æ–‡ä»¶
 train_images_idx3_ubyte_file = 'F://kerastest/train-images.idx3-ubyte'
-# ÑµÁ·¼¯±êÇ©ÎÄ¼ş
+# è®­ç»ƒé›†æ ‡ç­¾æ–‡ä»¶
 train_labels_idx1_ubyte_file = 'F://kerastest/train-labels.idx1-ubyte'
 
-# ²âÊÔ¼¯ÎÄ¼ş
+# æµ‹è¯•é›†æ–‡ä»¶
 test_images_idx3_ubyte_file = 'F://kerastest/t10k-images.idx3-ubyte'
-# ²âÊÔ¼¯±êÇ©ÎÄ¼ş
+# æµ‹è¯•é›†æ ‡ç­¾æ–‡ä»¶
 test_labels_idx1_ubyte_file = 'F://kerastest/t10k-labels.idx1-ubyte'
 
 
 def decode_idx3_ubyte(idx3_ubyte_file):
     """
-    ½âÎöidx3ÎÄ¼şµÄÍ¨ÓÃº¯Êı
-    :param idx3_ubyte_file: idx3ÎÄ¼şÂ·¾¶
-    :return: Êı¾İ¼¯
+    è§£æidx3æ–‡ä»¶çš„é€šç”¨å‡½æ•°
+    :param idx3_ubyte_file: idx3æ–‡ä»¶è·¯å¾„
+    :return: æ•°æ®é›†
     """
-    # ¶ÁÈ¡¶ş½øÖÆÊı¾İ
+    # è¯»å–äºŒè¿›åˆ¶æ•°æ®
     bin_data = open(idx3_ubyte_file, 'rb').read()
 
-    # ½âÎöÎÄ¼şÍ·ĞÅÏ¢£¬ÒÀ´ÎÎªÄ§Êı¡¢Í¼Æ¬ÊıÁ¿¡¢Ã¿ÕÅÍ¼Æ¬¸ß¡¢Ã¿ÕÅÍ¼Æ¬¿í
+    # è§£ææ–‡ä»¶å¤´ä¿¡æ¯ï¼Œä¾æ¬¡ä¸ºé­”æ•°ã€å›¾ç‰‡æ•°é‡ã€æ¯å¼ å›¾ç‰‡é«˜ã€æ¯å¼ å›¾ç‰‡å®½
     offset = 0
     fmt_header = '>iiii'
     magic_number, num_images, num_rows, num_cols = struct.unpack_from(fmt_header, bin_data, offset)
-    print('Ä§Êı:%d, Í¼Æ¬ÊıÁ¿: %dÕÅ, Í¼Æ¬´óĞ¡: %d*%d' % (magic_number, num_images, num_rows, num_cols))
+    print('é­”æ•°:%d, å›¾ç‰‡æ•°é‡: %då¼ , å›¾ç‰‡å¤§å°: %d*%d' % (magic_number, num_images, num_rows, num_cols))
 
-    # ½âÎöÊı¾İ¼¯
+    # è§£ææ•°æ®é›†
     image_size = num_rows * num_cols
     offset += struct.calcsize(fmt_header)
     fmt_image = '>' + str(image_size) + 'B'
     images = np.empty((num_images, num_rows, num_cols))
     for i in range(num_images):
         if (i + 1) % 10000 == 0:
-            print('ÒÑ½âÎö %d' % (i + 1) + 'ÕÅ')
+            print('å·²è§£æ %d' % (i + 1) + 'å¼ ')
         images[i] = np.array(struct.unpack_from(fmt_image, bin_data, offset)).reshape((num_rows, num_cols))
         offset += struct.calcsize(fmt_image)
     return images
@@ -91,26 +93,26 @@ def decode_idx3_ubyte(idx3_ubyte_file):
 
 def decode_idx1_ubyte(idx1_ubyte_file):
     """
-    ½âÎöidx1ÎÄ¼şµÄÍ¨ÓÃº¯Êı
-    :param idx1_ubyte_file: idx1ÎÄ¼şÂ·¾¶
-    :return: Êı¾İ¼¯
+    è§£æidx1æ–‡ä»¶çš„é€šç”¨å‡½æ•°
+    :param idx1_ubyte_file: idx1æ–‡ä»¶è·¯å¾„
+    :return: æ•°æ®é›†
     """
-    # ¶ÁÈ¡¶ş½øÖÆÊı¾İ
+    # è¯»å–äºŒè¿›åˆ¶æ•°æ®
     bin_data = open(idx1_ubyte_file, 'rb').read()
 
-    # ½âÎöÎÄ¼şÍ·ĞÅÏ¢£¬ÒÀ´ÎÎªÄ§ÊıºÍ±êÇ©Êı
+    # è§£ææ–‡ä»¶å¤´ä¿¡æ¯ï¼Œä¾æ¬¡ä¸ºé­”æ•°å’Œæ ‡ç­¾æ•°
     offset = 0
     fmt_header = '>ii'
     magic_number, num_images = struct.unpack_from(fmt_header, bin_data, offset)
-    print('Ä§Êı:%d, Í¼Æ¬ÊıÁ¿: %dÕÅ' % (magic_number, num_images))
+    print('é­”æ•°:%d, å›¾ç‰‡æ•°é‡: %då¼ ' % (magic_number, num_images))
 
-    # ½âÎöÊı¾İ¼¯
+    # è§£ææ•°æ®é›†
     offset += struct.calcsize(fmt_header)
     fmt_image = '>B'
     labels = np.empty(num_images)
     for i in range(num_images):
         if (i + 1) % 10000 == 0:
-            print('ÒÑ½âÎö %d' % (i + 1) + 'ÕÅ')
+            print('å·²è§£æ %d' % (i + 1) + 'å¼ ')
         labels[i] = struct.unpack_from(fmt_image, bin_data, offset)[0]
         offset += struct.calcsize(fmt_image)
     return labels
@@ -130,8 +132,8 @@ def load_train_images(idx_ubyte_file=train_images_idx3_ubyte_file):
     xxxx     unsigned byte   ??               pixel
     Pixels are organized row-wise. Pixel values are 0 to 255. 0 means background (white), 255 means foreground (black).
 
-    :param idx_ubyte_file: idxÎÄ¼şÂ·¾¶
-    :return: n*row*colÎ¬np.array¶ÔÏó£¬nÎªÍ¼Æ¬ÊıÁ¿
+    :param idx_ubyte_file: idxæ–‡ä»¶è·¯å¾„
+    :return: n*row*colç»´np.arrayå¯¹è±¡ï¼Œnä¸ºå›¾ç‰‡æ•°é‡
     """
     return decode_idx3_ubyte(idx_ubyte_file)
 
@@ -148,8 +150,8 @@ def load_train_labels(idx_ubyte_file=train_labels_idx1_ubyte_file):
     xxxx     unsigned byte   ??               label
     The labels values are 0 to 9.
 
-    :param idx_ubyte_file: idxÎÄ¼şÂ·¾¶
-    :return: n*1Î¬np.array¶ÔÏó£¬nÎªÍ¼Æ¬ÊıÁ¿
+    :param idx_ubyte_file: idxæ–‡ä»¶è·¯å¾„
+    :return: n*1ç»´np.arrayå¯¹è±¡ï¼Œnä¸ºå›¾ç‰‡æ•°é‡
     """
     return decode_idx1_ubyte(idx_ubyte_file)
 
@@ -168,8 +170,8 @@ def load_test_images(idx_ubyte_file=test_images_idx3_ubyte_file):
     xxxx     unsigned byte   ??               pixel
     Pixels are organized row-wise. Pixel values are 0 to 255. 0 means background (white), 255 means foreground (black).
 
-    :param idx_ubyte_file: idxÎÄ¼şÂ·¾¶
-    :return: n*row*colÎ¬np.array¶ÔÏó£¬nÎªÍ¼Æ¬ÊıÁ¿
+    :param idx_ubyte_file: idxæ–‡ä»¶è·¯å¾„
+    :return: n*row*colç»´np.arrayå¯¹è±¡ï¼Œnä¸ºå›¾ç‰‡æ•°é‡
     """
     return decode_idx3_ubyte(idx_ubyte_file)
 
@@ -186,8 +188,8 @@ def load_test_labels(idx_ubyte_file=test_labels_idx1_ubyte_file):
     xxxx     unsigned byte   ??               label
     The labels values are 0 to 9.
 
-    :param idx_ubyte_file: idxÎÄ¼şÂ·¾¶
-    :return: n*1Î¬np.array¶ÔÏó£¬nÎªÍ¼Æ¬ÊıÁ¿
+    :param idx_ubyte_file: idxæ–‡ä»¶è·¯å¾„
+    :return: n*1ç»´np.arrayå¯¹è±¡ï¼Œnä¸ºå›¾ç‰‡æ•°é‡
     """
     return decode_idx1_ubyte(idx_ubyte_file)
 
@@ -198,7 +200,7 @@ def run():
     # test_images = load_test_images()
     # test_labels = load_test_labels()
 
-    # ²é¿´Ç°Ê®¸öÊı¾İ¼°Æä±êÇ©ÒÔ¶ÁÈ¡ÊÇ·ñÕıÈ·
+    # æŸ¥çœ‹å‰åä¸ªæ•°æ®åŠå…¶æ ‡ç­¾ä»¥è¯»å–æ˜¯å¦æ­£ç¡®
     for i in range(10):
         print(train_labels[i])
         plt.imshow(train_images[i], cmap='gray')
