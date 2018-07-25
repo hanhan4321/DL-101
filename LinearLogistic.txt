@@ -1,3 +1,7 @@
+#instruction
+#æ­¤ä»£ç ä¸»è¦å¯¹æ³¢å£«é¡¿æˆ¿ä»·è¿›è¡Œé¢„æµ‹ï¼Œæ•°æ®é›†ä¸ºæ³¢å£«é¡¿åœ°åŒºæˆ¿ä»·æ•°æ®é›†ï¼›
+#è¿è¡Œæ–¹å¼ï¼šç›´æ¥è¿è¡Œå³å¯ï¼Œå› ä¸ºæ•°æ®é›†sklearnåº“é‡Œç›´æ¥å¯åŠ è½½ï¼›
+#è¿è¡Œç»“æœï¼šå„ä¸ªæ¨¡å‹çš„é¢„æµ‹ç»“æœä»¥åŠå„ä¸ªæ¨¡å‹çš„å‡æ–¹è¯¯å·®
 from sklearn.linear_model import LinearRegression,SGDRegressor,Ridge
 from sklearn.preprocessing import StandardScaler
 from sklearn.datasets import load_boston
@@ -7,28 +11,28 @@ from sklearn.cluster import KMeans
 
 def linearmodel():
     """
-    ÏßĞÔ»Ø¹éÊ÷¶Ô²¨Ê¿¶ÙÊı¾İ¼¯´¦Àí
-    £ºreturn:None
+    çº¿æ€§å›å½’æ ‘å¯¹æ³¢å£«é¡¿æ•°æ®é›†å¤„ç†
+    ï¼šreturn:None
     """
     
-    #1¡¢¼ÓÔØÊı¾İ¼¯
+    #1ã€åŠ è½½æ•°æ®é›†
     
     ld = load_boston()
     x_train,x_test,y_train,y_test = train_test_split(ld.data,ld.target,test_size=0.25)
     
-    #2¡¢±ê×¼»¯´¦Àí
-    #ÌØÕ÷Öµ´¦Àí
+    #2ã€æ ‡å‡†åŒ–å¤„ç†
+    #ç‰¹å¾å€¼å¤„ç†
     std_x = StandardScaler()
     x_train = std_x.fit_transform(x_train)
     x_test = std_x.transform(x_test)
     
-    #Ä¿±êÖµ½øĞĞ´¦Àí
+    #ç›®æ ‡å€¼è¿›è¡Œå¤„ç†
     
     std_y = StandardScaler()
     y_train = std_y.fit_transform(y_train.reshape(-1,1))
     y_test = std_y.transform(y_test.reshape(-1,1))
     
-    #3¡¢¹À¼ÆÆ÷Á÷³Ì
+    #3ã€ä¼°è®¡å™¨æµç¨‹
     
     #LinearRegression
     lr = LinearRegression()
@@ -40,7 +44,7 @@ def linearmodel():
     y_lr_predict = lr.predict(x_test)
     y_lr_predict = std_y.inverse_transform(y_lr_predict)
     
-    print("LrÔ¤²âÖµ£º",y_lr_predict)
+    print("Lré¢„æµ‹å€¼ï¼š",y_lr_predict)
     
     #SGDRegressor
     sgd = SGDRegressor()
@@ -51,9 +55,9 @@ def linearmodel():
     
     y_sgd_predict = sgd.predict(x_test)
     y_sgd_predict = std_y.inverse_transform(y_sgd_predict)
-    print("SGDÔ¤²âÖµ£º",y_sgd_predict)
+    print("SGDé¢„æµ‹å€¼ï¼š",y_sgd_predict)
     
-    #´øÓĞÕıÔò»¯µÄÁë»Ø¹é
+    #å¸¦æœ‰æ­£åˆ™åŒ–çš„å²­å›å½’
     
     rd = Ridge(alpha=0.01)
     rd.fit(x_train,y_train)
@@ -61,13 +65,13 @@ def linearmodel():
     y_rd_predict = std_y.inverse_transform(y_rd_predict)
     print(rd.coef_)
     
-    #Á½ÖÖÄ£ĞÍÆÀ¹À½á¹û
+    #ä¸¤ç§æ¨¡å‹è¯„ä¼°ç»“æœ
     
-    print("lrµÄ¾ù·½Îó²îÎª£º",mean_squared_error(std_y.inverse_transform(y_test),y_lr_predict))
+    print("lrçš„å‡æ–¹è¯¯å·®ä¸ºï¼š",mean_squared_error(std_y.inverse_transform(y_test),y_lr_predict))
     
-    print("SGDµÄ¾ù·½Îó²îÎª£º",mean_squared_error(std_y.inverse_transform(y_test),y_sgd_predict))
+    print("SGDçš„å‡æ–¹è¯¯å·®ä¸ºï¼š",mean_squared_error(std_y.inverse_transform(y_test),y_sgd_predict))
     
-    print("RidgeµÄ¾ù·½Îó²îÎª£º",mean_squared_error(std_y.inverse_transform(y_test),y_rd_predict))
+    print("Ridgeçš„å‡æ–¹è¯¯å·®ä¸ºï¼š",mean_squared_error(std_y.inverse_transform(y_test),y_rd_predict))
     
     return None
     
