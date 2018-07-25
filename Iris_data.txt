@@ -1,3 +1,5 @@
+#鸢尾花数据集的可视化，一共有三类：Setosa(山鸢尾)、Versicolour(杂色鸢尾)、Virginica（维吉尼亚鸢尾）
+
 from sklearn.datasets import load_iris
 data = load_iris()
 print(dir(data))
